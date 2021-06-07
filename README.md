@@ -46,8 +46,6 @@ Cloning repository: (you can use this project as template too)
 git clone https://github.com/PonchoCeniceros/My-REST-Template.git
 ```
 
-### 1. Standalone
-
 Creating a virtual environment:
 ```
 virtualenv .venv
@@ -63,7 +61,7 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-### 2. Using bash scripts
+### Using bash scripts
 Creating a virtual environment: (remmenber use ```sudo chmod +x``` to grant access to scripts)
 ```
 .scripts/build-venv.sh
@@ -73,7 +71,7 @@ Just running local server:
 ```
 .scripts/run-server.sh
 ```
-If you want to make migrations and running local server, use ```-migrate``` param. If you want to create a super user and running local server, use ```-superuser``` param.
+If you want to make migrations and running local server, use ```--migrate true``` param. If you want to create a super user and running local server, use ```--superuser true``` param.
 
 ## Creating applications 📱
 

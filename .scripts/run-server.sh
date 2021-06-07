@@ -1,18 +1,31 @@
 #!/bin/bash
 
 GN="\e[94m"
-CMD=$1
+migrate=false
+superuser=false
+
+make_migrations() {
+  python manage.py makemigrations
+  python manage.py migrate
+}
+
+create_superuser() {
+  python manage.py createsuperuser
+}
+
+while (( $# > 1 )); do case $1 in
+    --migrate) migrate="$2";;
+    --superuser) superuser="$2";;
+    *) break;
+  esac; shift 2
+done
 
 # Run virtualenv
 source .venv/bin/activate
 
-# Setting rule
-if [ ${CMD} = "-migrate" ]; then
-	python manage.py makemigrations
-	python manage.py migrate
-elif [ ${CMD} = "-superuser" ]; then
-	python manage.py createsuperuser
-fi
+# setting rules
+$migrate && make_migrations
+$superuser && create_superuser
 
 # Run server
 echo -e "${GN}" 
