@@ -3,7 +3,7 @@ This repository contains the structure of a REST architecture project implemente
 
 
 ## Structure 🗂
-```
+```Bash
 .
 ├── manage.py
 │
@@ -28,7 +28,7 @@ This repository contains the structure of a REST architecture project implemente
 
 
 ## Requirements 📋
-```
+```Bash
 asgiref==3.3.4
 Django==3.2.3
 pytz==2021.1
@@ -42,19 +42,19 @@ python-decouple==3.4
 ## Instalation 🔧
 
 Cloning repository: (you can use this project as template too)
-```
+```Bash
 git clone https://github.com/PonchoCeniceros/My-REST-Template.git
 ```
 
 Creating a virtual environment:
-```
+```Bash
 virtualenv .venv
 source .venv/bin/activate
 pip install -r requirements/local.txt
 ```
 
 Running local server
-```
+```Bash
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
@@ -64,7 +64,7 @@ python manage.py runserver
 ### Using _wizard_ script
 you can use the wizard script to run the development server as well as perform other operations:
 
-```
+```Bash
 wizard.sh --run true
 	      --tree true  
 	      --migrate true
@@ -75,11 +75,11 @@ wizard.sh --run true
 ## Creating applications 📱
 
 We can see an example creating a ```myapp``` application:
-```
+```Bash
 wizard.sh --app myapp
 ```
 Using this script, you can see the next folder structure:
-```
+```Bash
 .
 ├── __init__.py
 ├── admin.py
