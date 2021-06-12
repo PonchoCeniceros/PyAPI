@@ -61,23 +61,22 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-### Using bash scripts
-Creating a virtual environment: (remmenber use ```sudo chmod +x``` to grant access to scripts)
-```
-.scripts/build-venv.sh
-```
+### Using _wizard_ script
+you can use the wizard script to run the development server as well as perform other operations:
 
-Just running local server:
 ```
-.scripts/run-server.sh
+wizard.sh --run true
+	      --tree true  
+	      --migrate true
+	      --superuser true
+	      --app myapp
 ```
-If you want to make migrations and running local server, use ```--migrate true``` param. If you want to create a super user and running local server, use ```--superuser true``` param.
 
 ## Creating applications 📱
 
-You can create an application using the ```build-app.sh```. We can see an example creating a ```myapp``` application:
+We can see an example creating a ```myapp``` application:
 ```
-.scripts/build-app.sh myapp
+wizard.sh --app myapp
 ```
 Using this script, you can see the next folder structure:
 ```
