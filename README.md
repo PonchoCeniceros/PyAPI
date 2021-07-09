@@ -73,6 +73,20 @@ you can use the CLI script to run the development server as well as perform othe
 	  --install pipPackage
 ```
 
+## Creating _.env_ file
+you must create a .env file in order to run the server:
+
+```Bash
+# General configurations
+SECRET_KEY=your_django_secret_key
+DJANGO_SETTINGS_MODULE=project.settings.local
+TIME_ZONE=your_time_zone
+
+# aditional configurations
+...
+```
+
+
 ## Creating applications 📱
 
 We can see an example creating a ```myapp``` application:
