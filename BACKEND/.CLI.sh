@@ -127,8 +127,8 @@ build_app() {
     mkdir views/bussinesLogic/
     touch views/bussinesLogic/__init__.py
     # CONFIGURATION TO APP INTO PROJECT
-    sed -i "s/$appname/application.$appname/" apps.py
-    sed -i "s/LOCAL_APPS = (/LOCAL_APPS = (\n\t'application.$appname',/" ../../project/settings/base.py
+    sed -i "s/$appname/applications.$appname/" apps.py
+    sed -i "s/LOCAL_APPS = (/LOCAL_APPS = (\n\t'applications.$appname',/" ../../project/settings/base.py
   fi
 }
 
