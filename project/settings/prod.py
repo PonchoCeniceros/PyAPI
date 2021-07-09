@@ -1,12 +1,18 @@
 from .base import *
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#
+# DEBUG FLAG
+#
+DEBUG = False
 
+#
+# ALLOWED HOSTS
+#
 ALLOWED_HOSTS = []
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+#
+# DATABASE
+#
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -16,6 +22,7 @@ DATABASES = {
     }
 }
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
+#
+# STATIC FILES
+#
 STATIC_URL = '/static/'

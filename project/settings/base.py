@@ -2,13 +2,19 @@ from unipath import Path
 from decouple import config
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+#
+# BASE DIRECTORY
+#
 BASE_DIR = Path(__file__).ancestor(3)
 
-# SECURITY WARNING: keep the secret key used in production secret!
+#
+# SECRET KEY
+#
 SECRET_KEY = config('SECRET_KEY')
 
-# Application definition
+#
+# APPLICATIONS
+#
 DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,6 +33,9 @@ THIRD_PARTY_APPS = (
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
+#
+# MIDDLEWARE 
+#
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -37,8 +46,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#
+# ROOT URL CONFIGURATION
+#
 ROOT_URLCONF = 'project.urls'
 
+#
+# TEMPLATES
+#
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -55,10 +70,14 @@ TEMPLATES = [
     },
 ]
 
+#
+# WSGI APPLICATION
+#
 WSGI_APPLICATION = 'project.wsgi.application'
 
-# Password validation
-# https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+#
+# PASSWORD VALIDATION
+#
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -74,11 +93,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
+#
+# INTERNATIONALIZATION
+#
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = config('TIME_ZONE') # 'UTC'
+TIME_ZONE = config('TIME_ZONE')
 
 USE_I18N = True
 
@@ -86,6 +106,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+#
+# DEFAULT PRIMARY KEY FIEDL TYPE
+#
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
