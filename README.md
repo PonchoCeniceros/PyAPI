@@ -61,15 +61,16 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-### Using _wizard_ script
-you can use the wizard script to run the development server as well as perform other operations:
+### Using __CLI__ (command-line interface)
+you can use the CLI script to run the development server as well as perform other operations:
 
 ```Bash
-wizard.sh --run true
-	      --tree true  
-	      --migrate true
-	      --superuser true
-	      --app myapp
+./.CLI.sh --run true
+	  --tree true  
+	  --migrate true
+	  --superuser true
+	  --app myapp
+	  --install pipPackage
 ```
 
 ## Creating applications 📱
@@ -93,11 +94,12 @@ Using this script, you can see the next folder structure:
 │   └── __init__.py
 |
 └── views
+    ├── bussinesLogic
+        └── __init__.py
     └── __init__.py
 
 ```
-Also, you need to complete the app configuration as you can see next:
-
+The CLI automatically complete the app configuration as you can see next:
 1. in ```myapp/apps.py```:
 ```Python
 from django.apps import AppConfig
