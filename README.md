@@ -77,7 +77,7 @@ you can use the CLI script to run the development server as well as perform othe
 
 We can see an example creating a ```myapp``` application:
 ```Bash
-wizard.sh --app myapp
+./.CLI.sh --app myapp
 ```
 Using this script, you can see the next folder structure:
 ```Bash
