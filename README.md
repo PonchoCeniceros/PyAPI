@@ -1,4 +1,4 @@
-# My REST template
+# PyAPI
 This repository contains the structure of a REST architecture project implemented with the django framework. 
 
 
