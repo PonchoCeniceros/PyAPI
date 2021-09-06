@@ -1,4 +1,19 @@
 # PyAPI
+
+```Bash
+# ███████████               █████████   ███████████  █████
+# ░░███░░░░░███             ███░░░░░███ ░░███░░░░░███░░███ 
+#  ░███    ░███ █████ ████ ░███    ░███  ░███    ░███ ░███ 
+#  ░██████████ ░░███ ░███  ░███████████  ░██████████  ░███ 
+#  ░███░░░░░░   ░███ ░███  ░███░░░░░███  ░███░░░░░░   ░███ 
+#  ░███         ░███ ░███  ░███    ░███  ░███         ░███ 
+#  █████        ░░███████  █████   █████ █████        █████
+# ░░░░░          ░░░░░███ ░░░░░   ░░░░░ ░░░░░        ░░░░░ 
+#                ███ ░███                                  
+#              ░░██████                                   
+#               ░░░░░░
+```
+
 This repository contains the structure of a REST architecture project implemented with the django framework. 
 
 
@@ -9,12 +24,18 @@ This repository contains the structure of a REST architecture project implemente
 │
 ├── project
 │   ├── __init__.py
-│   ├── asgi.py
+│   │
+│   ├── containers.py
+│   ├── services
+│   │   └── __init__.py
+│   │
 │   ├── settings
 │   │   ├── __init__.py
 │   │   ├── base.py
 │   │   ├── local.py
 │   │   └── prod.py
+│   │
+│   ├── asgi.py
 │   ├── urls.py
 │   └── wsgi.py
 │
@@ -65,10 +86,10 @@ python manage.py runserver
 you can use the CLI script to run the development server as well as perform other operations:
 
 ```Bash
-./.CLI.sh --run true
-	  --tree true  
-	  --migrate true
-	  --superuser true
+./.CLI.sh --run on
+	  --tree on  
+	  --migrate on
+	  --superuser on
 	  --app myapp
 	  --install pipPackage
 ```
@@ -85,7 +106,6 @@ TIME_ZONE=your_time_zone
 # aditional configurations
 ...
 ```
-
 
 ## Creating applications 📱
 
@@ -128,4 +148,105 @@ class MyappConfig(AppConfig):
 LOCAL_APPS = (
     'applications.myapp',
 )
+```
+
+## Service structure  🤲
+
+The API provides a global service structure, where main files are located in ```project``` folder. The services are declared inside the ```services``` folder. We provide a email service as example.
+1. in ```project/services/emails.py```:
+```Python
+from typing import List, Dict
+
+from django.conf import settings
+from django.core.mail import send_mail
+
+
+class EmailService:
+    """EmailService."""
+
+    def sendPlainText(self, message: str, toEmails: List[str]) -> Dict:
+        """sendPlainText.
+        Args:
+            message (str): message
+            toEmails (List[str]): toEmails
+        Returns:
+            Dict:
+        """
+        try:
+            subject = "Hello world"
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=toEmails,
+                fail_silently=False,
+            )
+            return {
+                "error": False,
+                "message": "Correo enviado correctamente",
+                "data": None,
+            }
+        except Exception as error:
+            return {
+                "error": True,
+                "message": "A ocurrido un error",
+                data: error,
+            }
+```
+
+2. in ```project/containers.py```:
+```Python
+from dependency_injector import containers, providers
+from . import services
+
+
+class Container(containers.DeclarativeContainer):
+    # providing email service
+    emailService = providers.Singleton(services.EmailService)
+```
+
+### Injecting services in your application 💉
+We can inject a custom service adding the next code in our ```myapp/apps.py```: 
+```Python
+from django.apps import AppConfig
+
+
+class MyappConfig(AppConfig):
+    name = 'applications.myapp'
+
+    def ready(ready): # <-- Here
+        from aliferaProject import container
+        from . import views
+
+        container.wire(modules=[views])
+```
+
+and we can inject the service directly on our view:
+```Python
+# django utils
+from django.http import HttpResponse, JsonResponse
+
+# dependency injection utils
+from project import Container
+from project.services import EmailService
+from dependency_injector.wiring import inject, Provide
+
+
+@inject
+def index(
+    request: HttpResponse,
+    emailService: EmailService = Provide[Container.emailService],
+) -> JsonResponse:
+    """index.
+    Args:
+        request (HttpResponse): request
+        emailService (EmailService): emailService
+    Returns:
+        JsonResponse:
+    """
+    resp = emailService.sendPlainText(
+        message="Hello world",
+        toEmails=["poncho.ceniceros@gmail.com"],
+    )
+    return JsonResponse(resp, safe=False)
 ```

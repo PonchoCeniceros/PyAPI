@@ -1,25 +1,25 @@
 #!/bin/bash
-#  _____ ______        ___    ___      ________   _______    ________   _________                                 
-# |\   _ \  _   \     |\  \  /  /|    |\   __  \ |\  ___ \  |\   ____\ |\___   ___\                               
-# \ \  \\\__\ \  \    \ \  \/  / /    \ \  \|\  \\ \   __/| \ \  \___|_\|___ \  \_|                               
-#  \ \  \\|__| \  \    \ \    / /      \ \   _  _\\ \  \_|/__\ \_____  \    \ \  \                                
-#   \ \  \    \ \  \    \/  /  /        \ \  \\  \|\ \  \_|\ \\|____|\  \    \ \  \                               
-#    \ \__\    \ \__\ __/  / /           \ \__\\ _\ \ \_______\ ____\_\  \    \ \__\                              
-#     \|__|     \|__||\___/ /             \|__|\|__| \|_______||\_________\    \|__|                              
-#  ________  ________\|_________   _____ ______    _______    ____________|   ________   ________   ___  __       
-# |\  _____\|\   __  \ |\   __  \ |\   _ \  _   \ |\  ___ \  |\  \     |\  \ |\   __  \ |\   __  \ |\  \|\  \     
-# \ \  \__/ \ \  \|\  \\ \  \|\  \\ \  \\\__\ \  \\ \   __/| \ \  \    \ \  \\ \  \|\  \\ \  \|\  \\ \  \/  /|_   
-#  \ \   __\ \ \   _  _\\ \   __  \\ \  \\|__| \  \\ \  \_|/__\ \  \  __\ \  \\ \  \\\  \\ \   _  _\\ \   ___  \  
-#   \ \  \_|  \ \  \\  \|\ \  \ \  \\ \  \    \ \  \\ \  \_|\ \\ \  \|\__\_\  \\ \  \\\  \\ \  \\  \|\ \  \\ \  \ 
-#    \ \__\    \ \__\\ _\ \ \__\ \__\\ \__\    \ \__\\ \_______\\ \____________\\ \_______\\ \__\\ _\ \ \__\\ \__\
-#     \|__|     \|__|\|__| \|__|\|__| \|__|     \|__| \|_______| \|____________| \|_______| \|__|\|__| \|__| \|__|
+#
+# ███████████               █████████   ███████████  █████
+# ░░███░░░░░███             ███░░░░░███ ░░███░░░░░███░░███ 
+#  ░███    ░███ █████ ████ ░███    ░███  ░███    ░███ ░███ 
+#  ░██████████ ░░███ ░███  ░███████████  ░██████████  ░███ 
+#  ░███░░░░░░   ░███ ░███  ░███░░░░░███  ░███░░░░░░   ░███ 
+#  ░███         ░███ ░███  ░███    ░███  ░███         ░███ 
+#  █████        ░░███████  █████   █████ █████        █████
+# ░░░░░          ░░░░░███ ░░░░░   ░░░░░ ░░░░░        ░░░░░ 
+#                ███ ░███                                  
+#              ░░██████                                   
+#               ░░░░░░
 #
 # CLI SCRIPT (@PonchoCeniceros)
 #
+###################################
+#                                 #
+#            VARIABLES            #
+#                                 #
+###################################
 
-#
-# VARIABLES
-#
 # COLORS FOR DISPLAY
 VNV="\e[93m"
 DNR="\e[1;101m"
@@ -33,14 +33,21 @@ migrate=false
 runserver=false
 superuser=false
 showtree=false
+rebuild=false
 appname=""
 package=""
+
+###################################
+#                                 #
+#              UTILS              #
+#                                 #
+###################################
 
 #
 # BUILD VIRTUAL ENVIRONMENT
 #
 build_venv() {
-  echo -e "${DFLT}"
+  echo -e "${GN}"
   virtualenv ${VENV}
   source .venv/bin/activate
   pip install -r requirements/local.txt
@@ -53,7 +60,7 @@ build_venv() {
 # INSTALL A SPECIFIC PACKAGE
 #
 install_package() {
-  echo -e "${DFLT}"
+  echo -e "${GN}"
   pip install --upgrade ${package}
   echo -e "${VNV}"
   pip freeze > requirements/local.txt
@@ -129,7 +136,11 @@ build_app() {
     # CONFIGURATION TO APP INTO PROJECT
     sed -i "s/$appname/applications.$appname/" apps.py
     sed -i "s/LOCAL_APPS = (/LOCAL_APPS = (\n\t'applications.$appname',/" ../../project/settings/base.py
+    # ADDING APP URL TO PROJECT URLS
+    sed -i "s/urlpatterns = \[/urlpatterns = [\n\tpath('$appname\/',include('applications.$appname.urls')),/" ../../project/urls.py
+    cd ../../
   fi
+  cd ../
 }
 
 #
@@ -158,31 +169,47 @@ fi
 
 # CATCH RULES
 while (( $# > 1 )); do case $1 in
-    --run) runserver="$2";;
-    --tree) showtree="$2";;
-    --migrate) migrate="$2";;
-    --superuser) superuser="$2";;
+    --run) runserver=true;;
+    --tree) showtree=true;;
+    --migrate) migrate=true;;
+    --superuser) superuser=true;;
     --app) appname="$2";;
     --install) package="$2";;
+    --rebuild) rebuild=true;;
     *) break;
   esac; shift 2
 done
+
+# CATCH RULES
+# while (( $# > 1 )); do case $1 in
+#     --run) runserver="$2";;
+#     --tree) showtree="$2";;
+#     --migrate) migrate="$2";;
+#     --superuser) superuser="$2";;
+#     --app) appname="$2";;
+#     --install) package="$2";;
+#     *) break;
+#   esac; shift 2
+# done
+
 # SETTING PRECEDENCE OF RULES (HIGH TO LOW):
 # (1) INSTALL A PACKAGE
 if [ "$package" != "" ]; then
   install_package
 fi
-# (2) CREATE AN APP
+# (2) REBUILD
+$rebuild   && rebuild_venv
+# (3) CREATE AN APP
 if [ "$appname" != "" ]; then
   build_app
 fi
-# (3) DO MIGRATIONS
+# (4) DO MIGRATIONS
 $migrate   && make_migrations
-# (4) CREATE SUPER USER
+# (5) CREATE SUPER USER
 $superuser && create_superuser
-# (5) SHOW FOLDER STRUCTURE
+# (6) SHOW FOLDER STRUCTURE
 $showtree  && show_tree
-# (6) RUN SERVER
+# (7) RUN SERVER
 $runserver && run_server
 
 exit 1
