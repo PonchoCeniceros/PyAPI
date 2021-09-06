@@ -1,17 +1,17 @@
 # PyAPI
 
 ```Bash
-# ███████████               █████████   ███████████  █████
-# ░░███░░░░░███             ███░░░░░███ ░░███░░░░░███░░███ 
-#  ░███    ░███ █████ ████ ░███    ░███  ░███    ░███ ░███ 
-#  ░██████████ ░░███ ░███  ░███████████  ░██████████  ░███ 
-#  ░███░░░░░░   ░███ ░███  ░███░░░░░███  ░███░░░░░░   ░███ 
-#  ░███         ░███ ░███  ░███    ░███  ░███         ░███ 
-#  █████        ░░███████  █████   █████ █████        █████
-# ░░░░░          ░░░░░███ ░░░░░   ░░░░░ ░░░░░        ░░░░░ 
-#                ███ ░███                                  
-#              ░░██████                                   
-#               ░░░░░░
+#                  ███████████               █████████   ███████████  █████
+#                  ░░███░░░░░███             ███░░░░░███ ░░███░░░░░███░░███ 
+#                   ░███    ░███ █████ ████ ░███    ░███  ░███    ░███ ░███ 
+#                   ░██████████ ░░███ ░███  ░███████████  ░██████████  ░███ 
+#                   ░███░░░░░░   ░███ ░███  ░███░░░░░███  ░███░░░░░░   ░███ 
+#                   ░███         ░███ ░███  ░███    ░███  ░███         ░███ 
+#                   █████        ░░███████  █████   █████ █████        █████
+#                  ░░░░░          ░░░░░███ ░░░░░   ░░░░░ ░░░░░        ░░░░░ 
+#                                 ███ ░███                                  
+#                               ░░██████                                   
+#                                ░░░░░░
 ```
 
 This repository contains the structure of a REST architecture project implemented with the django framework. 
@@ -156,7 +156,6 @@ The API provides a global service structure, where main files are located in ```
 1. in ```project/services/emails.py```:
 ```Python
 from typing import List, Dict
-
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -181,17 +180,10 @@ class EmailService:
                 recipient_list=toEmails,
                 fail_silently=False,
             )
-            return {
-                "error": False,
-                "message": "Correo enviado correctamente",
-                "data": None,
-            }
-        except Exception as error:
-            return {
-                "error": True,
-                "message": "A ocurrido un error",
-                data: error,
-            }
+            return { "message": "Correo enviado correctamente" }
+        
+	except Exception as error:
+            return { "message": "A ocurrido un error" }
 ```
 
 2. in ```project/containers.py```:
@@ -215,7 +207,7 @@ class MyappConfig(AppConfig):
     name = 'applications.myapp'
 
     def ready(ready): # <-- Here
-        from aliferaProject import container
+        from project import container
         from . import views
 
         container.wire(modules=[views])
