@@ -1,4 +1,4 @@
-[](https://github.com/PonchoCeniceros/PyAPI/blob/master/pyapi-logo.png)
+![](https://github.com/PonchoCeniceros/PyAPI/blob/master/pyapi-logo.png)
 
 This repository contains the structure of a REST architecture project implemented with the django framework. 
 
