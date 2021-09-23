@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="230" height="150" src="https://github.com/PonchoCeniceros/PyAPI/blob/master/pyapi-logo.png">
+  <img width="460" height="300" src="https://github.com/PonchoCeniceros/PyAPI/blob/master/pyapi-logo.png">
 </p>
 
 This repository contains the structure of a REST architecture project implemented with the django framework. 
