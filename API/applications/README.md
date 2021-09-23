@@ -47,3 +47,5 @@ urlpatterns = [
     path('myapp/', include('applications.myapp.urls')),
 ]
 ```
+
+[**back**](https://github.com/PonchoCeniceros/PyAPI)
