@@ -30,8 +30,6 @@ class AuthService:
             }
 ```
 
-
-
 ### Injecting services in your application 💉
 We can inject a custom service adding the next code in our ```project/containers.py```:
 
@@ -75,8 +73,10 @@ from dependency_injector.wiring import inject, Provide # <-- Here
 @inject # <-- Here
 def index(
     request: HttpResponse,
-    emailService: AuthService = Provide[Container.authService],  # <-- Here
+    authService: AuthService = Provide[Container.authService],  # <-- Here
 ) -> JsonResponse:
     # resp <= using auth service
     return JsonResponse(resp, safe=False)
 ```
+
+[**back**](https://github.com/PonchoCeniceros/PyAPI)
