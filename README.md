@@ -94,3 +94,8 @@ TIME_ZONE=your_time_zone
 # aditional configurations
 ...
 ```
+
+## Other features
+
+* [Creating applications 📱](https://github.com/PonchoCeniceros/PyAPI/blob/master/API/applications)
+* [service structure 🤲](https://github.com/PonchoCeniceros/PyAPI/tree/master/API/project/services)
