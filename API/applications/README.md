@@ -2,7 +2,7 @@
 
 We can see an example creating a ```myapp``` application:
 ```Bash
-./.CLI.sh --app myapp
+./pyapi-CLI.sh --app myapp
 ```
 Using this script, you can see the next folder structure:
 ```Bash
@@ -48,4 +48,4 @@ urlpatterns = [
 ]
 ```
 
-[**back**](https://github.com/PonchoCeniceros/PyAPI)
+[**Go back to home**](https://github.com/PonchoCeniceros/PyAPI)
