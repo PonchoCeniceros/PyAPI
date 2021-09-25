@@ -79,4 +79,4 @@ def index(
     return JsonResponse(resp, safe=False)
 ```
 
-[**back**](https://github.com/PonchoCeniceros/PyAPI)
+[**Go back to home**](https://github.com/PonchoCeniceros/PyAPI)
