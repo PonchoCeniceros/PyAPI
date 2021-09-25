@@ -1,33 +1,11 @@
 #!/bin/bash
 #
-# ███████████               █████████   ███████████  █████
-# ░░███░░░░░███             ███░░░░░███ ░░███░░░░░███░░███ 
-#  ░███    ░███ █████ ████ ░███    ░███  ░███    ░███ ░███ 
-#  ░██████████ ░░███ ░███  ░███████████  ░██████████  ░███ 
-#  ░███░░░░░░   ░███ ░███  ░███░░░░░███  ░███░░░░░░   ░███ 
-#  ░███         ░███ ░███  ░███    ░███  ░███         ░███ 
-#  █████        ░░███████  █████   █████ █████        █████
-# ░░░░░          ░░░░░███ ░░░░░   ░░░░░ ░░░░░        ░░░░░ 
-#                ███ ░███                                  
-#              ░░██████                                   
-#               ░░░░░░
-#
-# CLI SCRIPT (@PonchoCeniceros)
-#
-###################################
-#                                 #
-#            VARIABLES            #
-#                                 #
-###################################
-
 # COLORS FOR DISPLAY
 VNV="\e[93m"
 DNR="\e[1;101m"
 GN="\e[94m"
-#
 # VENV VALID ROUTE
 VENV='.venv/'
-#
 # RULE VARIABLES
 migrate=false
 runserver=false
@@ -36,16 +14,8 @@ showtree=false
 rebuild=false
 appname=""
 package=""
-
-###################################
-#                                 #
-#              UTILS              #
-#                                 #
-###################################
-
 #
 # BUILD VIRTUAL ENVIRONMENT
-#
 build_venv() {
   echo -e "${GN}"
   virtualenv ${VENV}
@@ -55,10 +25,8 @@ build_venv() {
   pip freeze > requirements/local.txt
   cat requirements/local.txt
 }
-
 #
 # INSTALL A SPECIFIC PACKAGE
-#
 install_package() {
   echo -e "${GN}"
   pip install --upgrade ${package}
@@ -66,27 +34,21 @@ install_package() {
   pip freeze > requirements/local.txt
   cat requirements/local.txt
 }
-
 #
 # DO MIGRATIONS
-#
 make_migrations() {
   echo -e "${GN}"
   python manage.py makemigrations
   python manage.py migrate
 }
-
 #
 # CREATE SUPER USER
-#
 create_superuser() {
   echo -e "${GN}"
   python manage.py createsuperuser
 }
-
 #
 # RUN VIRTUAL ENVIRONMENT
-#
 rebuild_venv() {
   echo -e "${GN}"
   rm -d -r .venv/
@@ -94,18 +56,29 @@ rebuild_venv() {
   source .venv/bin/activate
   pip install -r requirements/local.txt
 }
-
 #
 # SHOW FOLDER STRUCTURE
-#
 show_tree() {
   echo -e "${GN}"
-  tree
+  tree -L 2
 }
-
+#
+#
+create_env_file() {
+  secret_key=$(cat /dev/urandom | tr -dc '[:alpha:]' | fold -w ${1:-20} | head -n 1)
+  date_info=$(timedatectl | grep "Time zone") 
+  read -ra timezone_info <<< "$date_info"
+  timezone="${timezone_info[2]}"
+  touch .env
+  echo "# General configurations" > .env
+  echo "SECRET_KEY=${secret_key}" >> .env
+  echo "DJANGO_SETTINGS_MODULE=project.settings.local" >> .env
+  echo "TIME_ZONE=${timezone}" >> .env
+  echo "" >> .env
+  echo "# aditional configurations" >> .env
+}
 #
 # CREATE AN APP
-#
 build_app() {
   echo -e "${GN}"
   cd applications/
@@ -142,21 +115,29 @@ build_app() {
   fi
   cd ../
 }
-
 #
 # RUN SERVER
-#
 run_server() {
   echo -e "${GN}"
   python manage.py runserver
 }
 
-###################################
-#                                 #
-#           MAIN SCRIPT           #
-#                                 #
-###################################
+#
+# ███████████               █████████   ███████████  █████
+# ░░███░░░░░███             ███░░░░░███ ░░███░░░░░███░░███ 
+#  ░███    ░███ █████ ████ ░███    ░███  ░███    ░███ ░███ 
+#  ░██████████ ░░███ ░███  ░███████████  ░██████████  ░███ 
+#  ░███░░░░░░   ░███ ░███  ░███░░░░░███  ░███░░░░░░   ░███ 
+#  ░███         ░███ ░███  ░███    ░███  ░███         ░███ 
+#  █████        ░░███████  █████   █████ █████        █████
+# ░░░░░          ░░░░░███ ░░░░░   ░░░░░ ░░░░░        ░░░░░ 
+#                ███ ░███                                  
+#              ░░██████                                   
+#               ░░░░░░
+#
+# CLI SCRIPT (@PonchoCeniceros)
 
+#
 # BUILDING/CREATING VIRTUAL ENVIRONMENT
 if [ -d $VENV ]; then
   echo -e "${GN}"
@@ -166,9 +147,14 @@ else
   echo "Virtual environment does not exists. Creating one..."
   build_venv
 fi
+# BUILDING/CREATING VIRTUAL ENVIRONMENT
+if ! [ -a .env ]; then
+  echo -e "${DNR}"
+  echo ".env file does not exists. Creating one..."
+  create_env_file
+fi
 
-# CATCH RULES
-while (( $# > 1 )); do case $1 in
+while (( $# > 1 )); do case $1 in  # CATCH RULES
     --run) runserver=true;;
     --tree) showtree=true;;
     --migrate) migrate=true;;
@@ -179,38 +165,18 @@ while (( $# > 1 )); do case $1 in
     *) break;
   esac; shift 2
 done
-
-# CATCH RULES
-# while (( $# > 1 )); do case $1 in
-#     --run) runserver="$2";;
-#     --tree) showtree="$2";;
-#     --migrate) migrate="$2";;
-#     --superuser) superuser="$2";;
-#     --app) appname="$2";;
-#     --install) package="$2";;
-#     *) break;
-#   esac; shift 2
-# done
-
 # SETTING PRECEDENCE OF RULES (HIGH TO LOW):
-# (1) INSTALL A PACKAGE
-if [ "$package" != "" ]; then
+if [ "$package" != "" ]; then   # (1) INSTALL A PACKAGE
   install_package
 fi
-# (2) REBUILD
-$rebuild   && rebuild_venv
-# (3) CREATE AN APP
-if [ "$appname" != "" ]; then
+$rebuild   && rebuild_venv      # (2) REBUILD
+if [ "$appname" != "" ]; then   # (3) CREATE AN APP
   build_app
 fi
-# (4) DO MIGRATIONS
-$migrate   && make_migrations
-# (5) CREATE SUPER USER
-$superuser && create_superuser
-# (6) SHOW FOLDER STRUCTURE
-$showtree  && show_tree
-# (7) RUN SERVER
-$runserver && run_server
+$migrate   && make_migrations   # (4) DO MIGRATIONS
+$superuser && create_superuser  # (5) CREATE SUPER USER
+$showtree  && show_tree         # (6) SHOW FOLDER STRUCTURE
+$runserver && run_server        # (7) RUN SERVER
 
 exit 1
 #
