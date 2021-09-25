@@ -76,12 +76,12 @@ python manage.py runserver
 you can use the CLI script to run the development server as well as perform other operations:
 
 ```Bash
-./.CLI.sh --run on
-	  --tree on  
-	  --migrate on
-	  --superuser on
-	  --app myapp
-	  --install pipPackage
+./pyapi-CLI.sh --run on
+	       --tree on  
+	       --migrate on
+	       --superuser on
+	       --app myapp
+	       --install pipPackage
 ```
 
 ## Creating _.env_ file
