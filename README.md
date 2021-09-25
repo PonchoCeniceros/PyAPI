@@ -40,12 +40,14 @@ This repository contains the structure of a REST architecture project implemente
 ```Bash
 asgiref==3.3.4
 Django==3.2.3
-pytz==2021.1
-sqlparse==0.4.1
-Unipath==1.1
+djangorestframework==3.12.4
 mysqlclient==2.0.3
 PyMySQL==1.0.2
 python-decouple==3.4
+pytz==2021.1
+sqlparse==0.4.1
+Unipath==1.1
+dependency-injector==4.35.2
 ```
 
 ## Instalation 🔧
