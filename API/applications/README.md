@@ -10,14 +10,13 @@ Using this script, you can see the next folder structure:
 ├── __init__.py
 ├── admin.py
 ├── apps.py
-├── tests.py
 |
 ├── migrations
 │   └── __init__.py
-|
 ├── models
 │   └── __init__.py
-|
+├── tests
+│   └── __init__.py
 └── views
     ├── bussinesLogic
         └── __init__.py
