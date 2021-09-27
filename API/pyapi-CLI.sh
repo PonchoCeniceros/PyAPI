@@ -99,6 +99,10 @@ build_app() {
     mkdir models/
     touch models/__init__.py
     rm -f models.py
+    # REPLACE TESTS FILE BY VIEW FOLDER
+    mkdir tests/
+    touch tests/__init__.py
+    rm -f tests.py
     # REPLACE VIEWS FILE BY VIEW FOLDER
     mkdir views/
     touch views/__init__.py
