@@ -13,15 +13,11 @@ This repository contains the structure of a REST architecture project implemente
 ├── project
 │   ├── __init__.py
 │   │
-│   ├── containers.py
-│   ├── services
-│   │   └── __init__.py
-│   │
 │   ├── settings
 │   │   ├── __init__.py
 │   │   ├── base.py
 │   │   ├── local.py
-│   │   └── prod.py
+│   │   └── (prod.py)
 │   │
 │   ├── asgi.py
 │   ├── urls.py
@@ -47,7 +43,6 @@ python-decouple==3.4
 pytz==2021.1
 sqlparse==0.4.1
 Unipath==1.1
-dependency-injector==4.35.2
 ```
 
 ## Instalation 🔧
@@ -100,4 +95,3 @@ TIME_ZONE=your_time_zone
 ## Other features
 
 * [Creating applications 📱](https://github.com/PonchoCeniceros/PyAPI/blob/master/API/applications)
-* [service structure 🤲](https://github.com/PonchoCeniceros/PyAPI/tree/master/API/project/services)
