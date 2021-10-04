@@ -18,7 +18,7 @@ Using this script, you can see the next folder structure:
 ├── tests
 │   └── __init__.py
 └── views
-    ├── bussinesLogic
+    ├── services
         └── __init__.py
     └── __init__.py
 

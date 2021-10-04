@@ -107,9 +107,9 @@ build_app() {
     mkdir views/
     touch views/__init__.py
     rm -f views.py
-    # CREATE BUSSINES LOGIC (DOMAIN) FOLDER
-    mkdir views/bussinesLogic/
-    touch views/bussinesLogic/__init__.py
+    # CREATE SERVICES FOLDER
+    mkdir views/services/
+    touch views/services/__init__.py
     # CONFIGURATION TO APP INTO PROJECT
     sed -i "s/$appname/applications.$appname/" apps.py
     sed -i "s/LOCAL_APPS = (/LOCAL_APPS = (\n\t'applications.$appname',/" ../../project/settings/base.py
